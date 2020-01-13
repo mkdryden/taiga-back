@@ -44,7 +44,7 @@ packbits==0.6
 pillow==6.2.1
 premailer==3.0.1
 psd-tools==1.8.27
-psycopg2-binary==2.7.5
+psycopg2-binary==2.8.4
 pycparser==2.19
 pygments==2.2.0
 pyjwt==1.7.1
