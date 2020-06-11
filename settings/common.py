@@ -118,7 +118,7 @@ LANGUAGES = [
     ("ko", "한국어"),  # Korean
     #("lb", "Lëtzebuergesch"),  # Luxembourgish
     #("lt", "Lietuvių"),  # Lithuanian
-    #("lv", "Latviešu"),  # Latvian
+    ("lv", "Latviešu"),  # Latvian
     #("mk", "Македонски"),  # Macedonian
     #("ml", "മലയാളം"),  # Malayalam
     #("mn", "Монгол"),  # Mongolian
@@ -259,7 +259,7 @@ TEMPLATES = [
 ]
 
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     "taiga.base.middleware.cors.CorsMiddleware",
     "taiga.events.middleware.SessionIDMiddleware",
 
@@ -476,6 +476,8 @@ PUBLIC_REGISTER_ENABLED = False
 # None or [] values in USER_EMAIL_ALLOWED_DOMAINS means allow any domain
 USER_EMAIL_ALLOWED_DOMAINS = None
 
+PRIVATE_USER_PROFILES = False
+
 SEARCHES_MAX_RESULTS = 150
 
 SOUTH_MIGRATION_MODULES = {
@@ -600,3 +602,6 @@ if "test" in sys.argv:
     print ("\033[1;91mNo django tests.\033[0m")
     print ("Try: \033[1;33mpy.test\033[0m")
     sys.exit(0)
+
+# Configuration for sending notifications
+NOTIFICATIONS_CUSTOM_FILTER = False

@@ -32,6 +32,11 @@ dummy_project.id = 1
 dummy_project.slug = "test"
 
 
+dummy_object = MagicMock()
+del dummy_object.slug
+dummy_object.project = dummy_project
+
+
 def test_proccessor_valid_emoji():
     result = emojify.EmojifyPreprocessor().run(["**:smile:**"])
     assert result == ["**![smile](http://localhost:8000/static/img/emojis/smile.png)**"]
@@ -50,7 +55,10 @@ def test_mentions_valid_username():
 
         result = render(dummy_project, "text @hermione text")
 
-        get_user_model_mock.return_value.objects.get.assert_called_with(username="hermione")
+        get_user_model_mock.return_value.objects.get.assert_called_with(
+            memberships__project_id=1,
+            username="hermione",
+        )
         assert result == ('<p>text <a class="mention" href="http://localhost:9001/profile/hermione" '
                           'title="Hermione Granger">@hermione</a> text</p>')
 
@@ -63,7 +71,10 @@ def test_mentions_valid_username_with_points():
 
         result = render(dummy_project, "text @luna.lovegood text")
 
-        get_user_model_mock.return_value.objects.get.assert_called_with(username="luna.lovegood")
+        get_user_model_mock.return_value.objects.get.assert_called_with(
+            memberships__project_id=1,
+            username="luna.lovegood",
+        )
         assert result == ('<p>text <a class="mention" href="http://localhost:9001/profile/luna.lovegood" '
                           'title="Luna Lovegood">@luna.lovegood</a> text</p>')
 
@@ -76,7 +87,10 @@ def test_mentions_valid_username_with_dash():
 
         result = render(dummy_project, "text @super-ginny text")
 
-        get_user_model_mock.return_value.objects.get.assert_called_with(username="super-ginny")
+        get_user_model_mock.return_value.objects.get.assert_called_with(
+            memberships__project_id=1,
+            username="super-ginny",
+        )
         assert result == ('<p>text <a class="mention" href="http://localhost:9001/profile/super-ginny" '
                           'title="Ginny Weasley">@super-ginny</a> text</p>')
 
@@ -174,6 +188,16 @@ def test_render_wikilink_slug_to_wikipages():
 def test_render_wikilink_relative_to_absolute():
     expected_result = "<p><a href=\"http://localhost:9001/project/test/\">test project</a></p>"
     assert render(dummy_project, "[test project](/project/test/)") == expected_result
+
+
+def test_render_wikilink_obj_without_slug_absolute():
+    expected_result = "<p><a href=\"http://localhost:9001/project/test/\">test project</a></p>"
+    assert render(dummy_object, "[test project](/project/test/)") == expected_result
+
+
+def test_render_wikilink_obj_without_slug_relative():
+    expected_result = "<p><a class=\"reference wiki\" href=\"http://localhost:9001/project/test/wiki/wiki_page\">test project</a></p>"
+    assert render(dummy_object, "[test project](wiki_page)") == expected_result
 
 
 def test_render_reference_links():

@@ -2,6 +2,91 @@
 
 ## Unreleased
 
+## 5.0.13 (2020-06-08)
+
+### Features
+
+- Resolved Django deprecation warnings to prepare for an upgrade.
+
+- Added option to disallow anonymous access to user profiles. 
+
+### Misc
+
+- Updated requirements.
+
+- Use pip-tools to manage dependencies.
+
+### i18n
+
+- Updated translations (lv).
+
+## 5.0.12 (2020-05-12)
+
+### Security
+
+- Avoid change in membership attribute. We encourage all users of Taiga
+  to upgrade as soon as possible.
+
+## 5.0.11 (2020-05-04)
+
+### Misc
+
+- Fixed several minor bugs.
+
+- Updated requirements.
+
+### i18n
+
+- Updated translations (es, lv, ru, tr, uk).
+
+## 5.0.9 (2020-03-11)
+
+### Feature
+
+- Implemented new simplified email messages.
+
+### Misc
+
+- Fixed several minor bugs.
+
+- Updated requirements.
+
+### i18n
+
+- Updated lots of strings and updated their translations.
+
+## 5.0.8 (2020-02-17)
+
+### i18n
+
+- Update Basque translation and others.
+
+### Misc
+
+- Several minor bugfixes.
+
+## 5.0.7 (2020-02-06)
+
+### Feature
+
+- Add reduce notifications configuration option.
+
+- Sanitize full name input.
+
+### i18n
+
+- Add Latvian translation.
+
+### Misc
+
+- Several minor bugfixes.
+
+## 5.0.6 (2020-01-15)
+
+### Misc
+
+- Minor fix on contact project team feature.
+
 ## 5.0.5 (2020-01-08)
 
 ### Feature

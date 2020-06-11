@@ -319,7 +319,7 @@ class MilestoneSerializer(serializers.LightSerializer):
     modified_date = Field()
     closed = Field()
     disponibility = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     project = ProjectSerializer()
     owner = UserSerializer()
 
@@ -359,7 +359,7 @@ class UserStorySerializer(CustomAttributesValuesWebhookSerializerMixin, serializ
     blocked_note = Field()
     description = Field()
     tags = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     owner = UserSerializer()
     assigned_to = UserSerializer()
     assigned_users = MethodField()
@@ -409,13 +409,14 @@ class TaskSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.L
     blocked_note = Field()
     description = Field()
     tags = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     project = ProjectSerializer()
     owner = UserSerializer()
     assigned_to = UserSerializer()
     status = TaskStatusSerializer()
     user_story = UserStorySerializer()
     milestone = MilestoneSerializer()
+    promoted_to = MethodField()
 
     def get_permalink(self, obj):
         return resolve_front_url("task", obj.project.slug, obj.ref)
@@ -425,6 +426,9 @@ class TaskSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.L
 
     def get_watchers(self, obj):
         return list(obj.get_watchers().values_list("id", flat=True))
+
+    def get_promoted_to(self, obj):
+        return list(obj.generated_user_stories.values_list("id", flat=True))
 
 
 ########################################################################
@@ -444,7 +448,7 @@ class IssueSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.
     watchers = MethodField()
     description = Field()
     tags = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     project = ProjectSerializer()
     milestone = MilestoneSerializer()
     owner = UserSerializer()
@@ -453,6 +457,7 @@ class IssueSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.
     type = IssueTypeSerializer()
     priority = PrioritySerializer()
     severity = SeveritySerializer()
+    promoted_to = MethodField()
 
     def get_permalink(self, obj):
         return resolve_front_url("issue", obj.project.slug, obj.ref)
@@ -462,6 +467,9 @@ class IssueSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.
 
     def get_watchers(self, obj):
         return list(obj.get_watchers().values_list("id", flat=True))
+
+    def get_promoted_to(self, obj):
+        return list(obj.generated_user_stories.values_list("id", flat=True))
 
 
 ########################################################################
@@ -474,7 +482,7 @@ class WikiPageSerializer(serializers.LightSerializer):
     content = Field()
     created_date = Field()
     modified_date = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     project = ProjectSerializer()
     owner = UserSerializer()
     last_modifier = UserSerializer()
@@ -496,7 +504,7 @@ class EpicSerializer(CustomAttributesValuesWebhookSerializerMixin, serializers.L
     watchers = MethodField()
     description = Field()
     tags = Field()
-    permalink = serializers.SerializerMethodField("get_permalink")
+    permalink = MethodField()
     project = ProjectSerializer()
     owner = UserSerializer()
     assigned_to = UserSerializer()
